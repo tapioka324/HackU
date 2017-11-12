@@ -82,9 +82,9 @@ def inference(images, keep_prob):
     return y_conv
 
 
-if __name__ == '__main__':
+def evaluation(test_image_path):
     test_image = []
-    img = cv2.imread('/deeparea/tkojima/991c3820515ff2f8c37a381485a41a6908d9d9e9.jpg')
+    img = cv2.imread(test_image_path)
     img = cv2.resize(img, (IMAGE_SIZE, IMAGE_SIZE))
     img = img.flatten().astype(np.float32)/255.0
     test_image.append(img)
@@ -101,7 +101,7 @@ if __name__ == '__main__':
     #sess.run(tf.initialize_all_variables())
     sess.run(tf.global_variables_initializer())
     #saver = tf.train.import_meta_graph('/deeparea/hack/model.meta')
-    saver.restore(sess, '/deeparea/hack/data/model')
+    saver.restore(sess, './models/model')
 
     pred = np.argmax(logits.eval(feed_dict={images: test_image, keep_prob: 1.0 })[0])
-    print(pred)
+    print [pred test_image_path]

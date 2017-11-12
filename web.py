@@ -3,9 +3,10 @@
 import os
 from flask import Flask, render_template, request, send_from_directory
 from werkzeug import secure_filename
+import eval
 
 UPLOAD_FOLDER = './uploads'
-ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif', 'JPG'])
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -25,7 +26,8 @@ def result():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            result = '/uploads/' + filename
+            image_path = '/uploads/' + filename
+            result = eval.evaluation(image_path)
             return render_template('result.html', result=result)
 
 @app.route('/uploads/<filename>')
